@@ -12,6 +12,8 @@ import './styles/gantt.css';
 
 type DateInfo = any;
 
+export type GanttTask = Task;
+
 interface GanttConfig {
   ignored_dates: Date[];
   ignored_positions: number[];

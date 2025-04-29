@@ -35,13 +35,15 @@ interface GanttOptions {
   lines: string;
   move_dependencies: boolean;
   padding: number;
-  popup: (ctx: {
-    task: any;
-    chart: any;
-    set_title: (title: string) => void;
-    set_subtitle: (subtitle: string) => void;
-    set_details: (details: string) => void;
-  }) => void;
+  popup:
+    | boolean
+    | ((ctx: {
+        task: any;
+        chart: any;
+        set_title: (title: string) => void;
+        set_subtitle: (subtitle: string) => void;
+        set_details: (details: string) => void;
+      }) => void);
   popup_on: 'click' | 'hover';
   readonly_progress: boolean;
   readonly_dates: boolean;

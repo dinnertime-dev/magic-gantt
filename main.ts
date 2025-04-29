@@ -14,5 +14,3 @@ const gantt = new Gantt(
   ],
   { language: 'ko' },
 );
-
-console.log(gantt.tasks);

@@ -496,7 +496,6 @@ export class Gantt {
     const row_height = this.options.bar_height + this.options.padding;
 
     for (let y = this.config.header_height; y < this.grid_height; y += row_height) {
-      console.log(y);
       createSVG('rect', {
         x: 0,
         y,
@@ -778,7 +777,7 @@ export class Gantt {
   }
 
   make_dates() {
-    this.get_dates_to_draw().forEach((date, i) => {
+    this.get_dates_to_draw().forEach((date) => {
       if (date.lower_text) {
         let $lower_text = this.create_el({
           left: date.x,
@@ -804,18 +803,16 @@ export class Gantt {
 
   get_dates_to_draw() {
     let last_date_info: DateInfo | null = null;
-    const dates = this.dates.map((date, i) => {
-      const d = this.get_date_info(date, last_date_info, i);
+    const dates = this.dates.map((date) => {
+      const d = this.get_date_info(date, last_date_info);
       last_date_info = d;
       return d;
     });
     return dates;
   }
 
-  get_date_info(date: Date, last_date_info: DateInfo | null, index: number): DateInfo {
+  get_date_info(date: Date, last_date_info: DateInfo | null): DateInfo {
     let last_date = last_date_info ? last_date_info.date : null;
-
-    let column_width = this.config.column_width;
 
     const x = last_date_info ? last_date_info.x + last_date_info.column_width : 0;
 
@@ -996,7 +993,7 @@ export class Gantt {
         }, 300);
       };
 
-      h.onmouseleave = (e) => {
+      h.onmouseleave = () => {
         clearTimeout(timeout);
         label.classList.remove('show');
       };
@@ -1009,7 +1006,7 @@ export class Gantt {
     let min_start = x;
     let max_start = x;
     let max_end = x + width;
-    Array.prototype.forEach.call(this.bars, function ({ group }, i) {
+    Array.prototype.forEach.call(this.bars, function ({ group }) {
       let { x, width } = group.getBBox();
       if (x < min_start) min_start = x;
       if (x > max_start) max_start = x;
@@ -1022,7 +1019,6 @@ export class Gantt {
     let is_dragging = false;
     let x_on_start = 0;
     let x_on_scroll_start = 0;
-    let y_on_start = 0;
     let is_resizing_left = false;
     let is_resizing_right = false;
     let parent_bar_id: string | null = null;
@@ -1056,7 +1052,6 @@ export class Gantt {
       if (this.popup) this.popup.hide();
 
       x_on_start = e.offsetX || e.layerX;
-      y_on_start = e.offsetY || e.layerY;
 
       parent_bar_id = bar_wrapper!.getAttribute('data-id') as string;
       let ids: string[];
@@ -1239,7 +1234,6 @@ export class Gantt {
 
   bind_bar_progress() {
     let x_on_start = 0;
-    let y_on_start = 0;
     let is_resizing = false;
     let bar: Bar | null = null;
     let $bar_progress: SVGElement | null = null;
@@ -1248,7 +1242,6 @@ export class Gantt {
     $.on(this.elements.$svg, 'mousedown', '.handle.progress', (e: MouseEvent, handle: HTMLElement) => {
       is_resizing = true;
       x_on_start = e.offsetX || e.layerX;
-      y_on_start = e.offsetY || e.layerY;
 
       const $bar_wrapper = $.closest('.bar-wrapper', handle);
       const id = $bar_wrapper!.getAttribute('data-id');
@@ -1395,8 +1388,9 @@ export class Gantt {
   }
 
   show_popup(opts: any) {
+    const popup_func = typeof this.options.popup === 'function' ? this.options.popup : () => {};
     if (!this.popup) {
-      this.popup = new Popup(this.elements.$popup_wrapper, this.options.popup, this);
+      this.popup = new Popup(this.elements.$popup_wrapper, popup_func, this);
     }
     this.popup.show(opts);
   }

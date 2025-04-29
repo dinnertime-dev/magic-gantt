@@ -572,9 +572,6 @@ export default class Bar {
       this.gantt.config.header_height +
       this.gantt.options.padding / 2 +
       this.task._index! * (this.height + this.gantt.options.padding);
-
-    console.log(this.y);
-    console.log(this.task._index);
   }
 
   private compute_duration(): void {

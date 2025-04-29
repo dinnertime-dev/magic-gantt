@@ -8,8 +8,6 @@ import { Task } from './task';
 
 import { DEFAULT_OPTIONS, DEFAULT_VIEW_MODES, ViewMode, GanttOptions } from './defaults';
 
-import './styles/gantt.css';
-
 type DateInfo = any;
 
 export type GanttTask = Task;

@@ -29,7 +29,7 @@ interface GanttOptions {
   lower_header_height: number;
   snap_at: string | null;
   infinite_padding: boolean;
-  holidays: Record<string, string>;
+  holidays: any;
   ignore: number[];
   language: Language;
   lines: string;

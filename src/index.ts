@@ -467,8 +467,7 @@ export class Gantt {
     const grid_height = Math.max(
       this.config.header_height +
         this.options.padding +
-        (this.options.bar_height + this.options.padding) * new Set(this.tasks.map((t) => t._index)).size -
-        10,
+        (this.options.bar_height + this.options.padding) * new Set(this.tasks.map((t) => t._index)).size,
       this.options.container_height !== 'auto' ? (this.options.container_height as number) : 0,
     );
 
